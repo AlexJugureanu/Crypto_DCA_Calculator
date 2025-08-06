@@ -2,5 +2,8 @@
 
 public class DcaSimulationInput
 {
-
+	public DateTime DateTime { get; set; }
+	public decimal MonthlyAmount { get; set; }
+	public int CryptoId { get; set; }
+	public int InvestDayOfTheMonth { get; set; }
 }
