@@ -10,9 +10,10 @@ namespace Crypto_DCA_Calculator_MobileApp
             var builder = MauiApp.CreateBuilder();
 
             builder.Services.AddTransient<IDcaCalculatorService, DcaCalculatorService>();
+			builder.Services.AddTransient<ICryptoDataService, CryptoDataService>();
 
 			builder
-                .UseMauiApp<App>()
+				.UseMauiApp<App>()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
