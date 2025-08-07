@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Crypto_DCA_Calculator_MobileApp.Services;
+using Microsoft.Extensions.Logging;
 
 namespace Crypto_DCA_Calculator_MobileApp
 {
@@ -7,7 +8,10 @@ namespace Crypto_DCA_Calculator_MobileApp
         public static MauiApp CreateMauiApp()
         {
             var builder = MauiApp.CreateBuilder();
-            builder
+
+            builder.Services.AddTransient<IDcaCalculatorService, DcaCalculatorService>();
+
+			builder
                 .UseMauiApp<App>()
                 .ConfigureFonts(fonts =>
                 {
