@@ -18,7 +18,8 @@ namespace Crypto_DCA_Calculator_MobileApp
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-                });
+					fonts.AddFont("NataSans-VariableFont_wght.ttf", "Font1");
+				});
 
 #if DEBUG
     		builder.Logging.AddDebug();
