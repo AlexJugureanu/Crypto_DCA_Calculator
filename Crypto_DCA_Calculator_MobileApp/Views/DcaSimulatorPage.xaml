@@ -3,136 +3,184 @@
 	x:Class="Crypto_DCA_Calculator_MobileApp.Views.DcaSimulatorPage"
 	xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:dataGrid="clr-namespace:Syncfusion.Maui.DataGrid;assembly=Syncfusion.Maui.DataGrid"
 	xmlns:datePicker="clr-namespace:Syncfusion.Maui.Picker;assembly=Syncfusion.Maui.Picker"
 	xmlns:syncfusion="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
 	BackgroundColor="Black"
 	Shell.NavBarIsVisible="False">
-	<StackLayout Orientation="Vertical">
-		<Grid>
-			<Grid.RowDefinitions>
-				<RowDefinition Height="*" />
-				<RowDefinition Height="*" />
-				<RowDefinition Height="*" />
-				<RowDefinition Height="*" />
-			</Grid.RowDefinitions>
-			<Label
-				Margin="0,20,0,0"
-				FontAttributes="Bold"
-				FontFamily="Font1"
-				FontSize="25"
-				HorizontalOptions="Center"
-				Text="Crypto DCA Calculator" />
-			<Grid
-				Grid.Row="1"
-				Margin="0,50,0,0"
-				ColumnSpacing="10">
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="*" />
-					<ColumnDefinition Width="*" />
-				</Grid.ColumnDefinitions>
-				<Border StrokeShape="RoundRectangle 12">
-					<syncfusion:SfComboBox
-						DisplayMemberPath="Name"
-						ItemsSource="{Binding CryptoCurrencies}"
-						SelectedItem="{Binding DcaSimulationInput.CryptoCoin}"
-						TextColor="Black" />
-				</Border>
-				<Border Grid.Column="1" StrokeShape="RoundRectangle 12">
-					<Entry
-						BackgroundColor="white"
-						Keyboard="Numeric"
-						Placeholder="Invest amount"
-						Text="{Binding DcaSimulationInput.MonthlyAmount}"
-						TextColor="Black" />
-				</Border>
-			</Grid>
-			<Grid Grid.Row="2" Margin="0,30,0,0">
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="*" />
-					<ColumnDefinition Width="*" />
-					<ColumnDefinition Width="*" />
-				</Grid.ColumnDefinitions>
-				<StackLayout Orientation="Vertical">
-					<Label
-						FontSize="17"
-						Text="Start Date"
-						TextColor="White" />
-					<Border
-						Background="White"
-						StrokeShape="RoundRectangle 12"
-						StrokeThickness="0">
-						<datePicker:SfDatePicker
-							x:Name="startDatePicker"
-							Format="MM_yyyy"
-							Mode="Dialog"
-							SelectedDate="{Binding SelectedStartDate, Mode=TwoWay}"
-							TextDisplayMode="Fade" />
-					</Border>
-					<Border
-						Background="White"
-						StrokeShape="RoundRectangle 12"
-						StrokeThickness="0">
-						<Label
-							Margin="10"
-							BackgroundColor="White"
-							Text="{Binding SelectedStartMonthYear}"
-							TextColor="Black">
-							<Label.GestureRecognizers>
-								<TapGestureRecognizer Tapped="OpenStartDatePicker" />
-							</Label.GestureRecognizers>
-						</Label>
-					</Border>
-				</StackLayout>
-				<StackLayout Grid.Column="1" Orientation="Vertical">
-					<Label
-						FontSize="17"
-						Text="Invest day"
-						TextColor="White" />
+	<ScrollView>
+		<StackLayout Orientation="Vertical">
+			<Grid>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="*" />
+					<RowDefinition Height="*" />
+					<RowDefinition Height="*" />
+					<RowDefinition Height="*" />
+				</Grid.RowDefinitions>
+				<Label
+					Margin="0,20,0,0"
+					FontAttributes="Bold"
+					FontFamily="Font1"
+					FontSize="25"
+					HorizontalOptions="Center"
+					Text="Crypto DCA Calculator" />
+				<Grid
+					Grid.Row="1"
+					Margin="0,50,0,0"
+					ColumnSpacing="10">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="*" />
+						<ColumnDefinition Width="*" />
+					</Grid.ColumnDefinitions>
 					<Border StrokeShape="RoundRectangle 12">
 						<syncfusion:SfComboBox
-							ItemsSource="{Binding DaysToChooseFrom}"
-							SelectedItem="{Binding DcaSimulationInput.InvestDayOfTheMonth}"
+							DisplayMemberPath="Name"
+							ItemsSource="{Binding CryptoCurrencies}"
+							SelectedItem="{Binding DcaSimulationInput.CryptoCoin}"
 							TextColor="Black" />
 					</Border>
-				</StackLayout>
-				<StackLayout Grid.Column="2" Orientation="Vertical">
-					<Label
-						FontSize="17"
-						Text="End Date"
-						TextColor="White" />
-					<Border
-						Background="White"
-						StrokeShape="RoundRectangle 12"
-						StrokeThickness="0">
-						<datePicker:SfDatePicker
-							x:Name="endDatePicker"
-							Format="MM_yyyy"
-							Mode="Dialog"
-							SelectedDate="{Binding SelectedEndDate, Mode=TwoWay}"
-							TextDisplayMode="Fade" />
+					<Border Grid.Column="1" StrokeShape="RoundRectangle 12">
+						<Entry
+							BackgroundColor="white"
+							Keyboard="Numeric"
+							Placeholder="Invest amount"
+							Text="{Binding DcaSimulationInput.MonthlyAmount}"
+							TextColor="Black" />
 					</Border>
-					<Border
-						Background="White"
-						StrokeShape="RoundRectangle 12"
-						StrokeThickness="0">
+				</Grid>
+				<Grid Grid.Row="2" Margin="0,30,0,0">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="*" />
+						<ColumnDefinition Width="*" />
+						<ColumnDefinition Width="*" />
+					</Grid.ColumnDefinitions>
+					<StackLayout Orientation="Vertical">
 						<Label
-							Margin="10"
-							BackgroundColor="White"
-							Text="{Binding SelectedEndMonthYear}"
-							TextColor="Black">
-							<Label.GestureRecognizers>
-								<TapGestureRecognizer Tapped="OpenEndDatePicker" />
-							</Label.GestureRecognizers>
-						</Label>
-					</Border>
-				</StackLayout>
+							FontSize="17"
+							Text="Start Date"
+							TextColor="White" />
+						<Border
+							Background="White"
+							StrokeShape="RoundRectangle 12"
+							StrokeThickness="0">
+							<datePicker:SfDatePicker
+								x:Name="startDatePicker"
+								Format="MM_yyyy"
+								Mode="Dialog"
+								SelectedDate="{Binding SelectedStartDate, Mode=TwoWay}"
+								TextDisplayMode="Fade" />
+						</Border>
+						<Border
+							Background="White"
+							StrokeShape="RoundRectangle 12"
+							StrokeThickness="0">
+							<Label
+								Margin="10"
+								BackgroundColor="White"
+								Text="{Binding SelectedStartMonthYear}"
+								TextColor="Black">
+								<Label.GestureRecognizers>
+									<TapGestureRecognizer Tapped="OpenStartDatePicker" />
+								</Label.GestureRecognizers>
+							</Label>
+						</Border>
+					</StackLayout>
+					<StackLayout Grid.Column="1" Orientation="Vertical">
+						<Label
+							FontSize="17"
+							Text="Invest day"
+							TextColor="White" />
+						<Border StrokeShape="RoundRectangle 12">
+							<syncfusion:SfComboBox
+								ItemsSource="{Binding DaysToChooseFrom}"
+								SelectedItem="{Binding DcaSimulationInput.InvestDayOfTheMonth}"
+								TextColor="Black" />
+						</Border>
+					</StackLayout>
+					<StackLayout Grid.Column="2" Orientation="Vertical">
+						<Label
+							FontSize="17"
+							Text="End Date"
+							TextColor="White" />
+						<Border
+							Background="White"
+							StrokeShape="RoundRectangle 12"
+							StrokeThickness="0">
+							<datePicker:SfDatePicker
+								x:Name="endDatePicker"
+								Format="MM_yyyy"
+								Mode="Dialog"
+								SelectedDate="{Binding SelectedEndDate, Mode=TwoWay}"
+								TextDisplayMode="Fade" />
+						</Border>
+						<Border
+							Background="White"
+							StrokeShape="RoundRectangle 12"
+							StrokeThickness="0">
+							<Label
+								Margin="10"
+								BackgroundColor="White"
+								Text="{Binding SelectedEndMonthYear}"
+								TextColor="Black">
+								<Label.GestureRecognizers>
+									<TapGestureRecognizer Tapped="OpenEndDatePicker" />
+								</Label.GestureRecognizers>
+							</Label>
+						</Border>
+					</StackLayout>
+				</Grid>
+				<Button
+					Grid.Row="3"
+					Margin="0,30,0,0"
+					Clicked="CalculateDca"
+					Text="Calculate"
+					WidthRequest="150" />
 			</Grid>
-			<Button
-				Grid.Row="3"
+
+			<Label
 				Margin="0,30,0,0"
-				Clicked="CalculateDca"
-				Text="Calculate"
-				WidthRequest="150" />
-		</Grid>
-	</StackLayout>
+				FontSize="20"
+				Text="Result:"
+				TextColor="White" />
+			<dataGrid:SfDataGrid
+				BackgroundColor="White"
+				ColumnWidthMode="FitByHeader"
+				GridLinesVisibility="Horizontal"
+				HeightRequest="400"
+				ItemsSource="{Binding DcaSimListResult}">
+				<dataGrid:SfDataGrid.Columns>
+					<dataGrid:DataGridTextColumn
+						Format="0"
+						HeaderText="Date"
+						HeaderTextAlignment="Center"
+						LoadUIView="False"
+						MappingName="Date" />
+					<dataGrid:DataGridNumericColumn
+						CellTextAlignment="Center"
+						HeaderText="Invested Amount"
+						HeaderTextAlignment="Center"
+						LoadUIView="False"
+						MappingName="InvestedAmount" />
+					<dataGrid:DataGridNumericColumn
+						CellTextAlignment="Center"
+						HeaderText="Crypto Currency Amount"
+						HeaderTextAlignment="Center"
+						LoadUIView="False"
+						MappingName="CryptoCurrencyAmount" />
+					<dataGrid:DataGridNumericColumn
+						CellTextAlignment="Center"
+						HeaderText="Value Today"
+						HeaderTextAlignment="Center"
+						LoadUIView="False"
+						MappingName="ValueToday" />
+					<dataGrid:DataGridTextColumn
+						CellTextAlignment="Center"
+						HeaderText="ROI"
+						HeaderTextAlignment="Center"
+						LoadUIView="False"
+						MappingName="ROI" />
+				</dataGrid:SfDataGrid.Columns>
+			</dataGrid:SfDataGrid>
+		</StackLayout>
+	</ScrollView>
 </ContentPage>

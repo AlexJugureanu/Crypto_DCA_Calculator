@@ -62,6 +62,20 @@ public partial class DcaSimulatorPage : ContentPage, INotifyPropertyChanged
 	public DcaSimulationInput DcaSimulationInput { get; set; } = new();
 	public DcaResult DcaSimulationResult { get; set; } = new();
 
+	private List<DcaResultForUser> _dcaSimListResult;
+	public List<DcaResultForUser> DcaSimListResult
+	{
+		get => _dcaSimListResult;
+		set
+		{
+			if (_dcaSimListResult != value)
+			{
+				_dcaSimListResult = value;
+				OnPropertyChanged(nameof(DcaSimListResult));
+			}
+		}
+	}
+
 	public DcaSimulatorPage(IDcaCalculatorService dcaCalculatorService)
 	{
 		BindingContext = this;
@@ -86,7 +100,7 @@ public partial class DcaSimulatorPage : ContentPage, INotifyPropertyChanged
 
 	private async void CalculateDca(object sender, EventArgs e)
 	{
-		DcaSimulationResult = await _dcaCalculatorService.CalculateDca(DcaSimulationInput);
+		(DcaSimulationResult, DcaSimListResult) = await _dcaCalculatorService.CalculateDca(DcaSimulationInput);
 	}
 
 	public event PropertyChangedEventHandler? PropertyChanged;
