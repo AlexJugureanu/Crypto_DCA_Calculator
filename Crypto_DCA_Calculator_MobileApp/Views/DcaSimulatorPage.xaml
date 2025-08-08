@@ -3,6 +3,7 @@
 	x:Class="Crypto_DCA_Calculator_MobileApp.Views.DcaSimulatorPage"
 	xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:datePicker="clr-namespace:Syncfusion.Maui.Picker;assembly=Syncfusion.Maui.Picker"
 	xmlns:syncfusion="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
 	BackgroundColor="Black"
 	Shell.NavBarIsVisible="False">
@@ -21,15 +22,116 @@
 				FontSize="25"
 				HorizontalOptions="Center"
 				Text="Crypto DCA Calculator" />
-			<StackLayout
+			<Grid
 				Grid.Row="1"
-				Margin="0,10,0,0"
-				Orientation="Horizontal">
-				<syncfusion:SfComboBox
-					ItemsSource="{Binding CryptoCurrencies}"
-					SelectedItem="{Binding SelectedCryptoCurrency}"
-					TextColor="Black" />
-			</StackLayout>
+				Margin="0,50,0,0"
+				ColumnSpacing="10">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="*" />
+				</Grid.ColumnDefinitions>
+				<Border StrokeShape="RoundRectangle 12">
+					<syncfusion:SfComboBox
+						ItemsSource="{Binding CryptoCurrencies}"
+						SelectedItem="{Binding DcaSimulationInput.CryptoId}"
+						TextColor="Black" />
+				</Border>
+				<Border Grid.Column="1" StrokeShape="RoundRectangle 12">
+					<Entry
+						BackgroundColor="white"
+						Keyboard="Numeric"
+						Placeholder="Invest amount"
+						Text="{Binding DcaSimulationInput.MonthlyAmount}"
+						TextColor="Black" />
+				</Border>
+			</Grid>
+			<Grid Grid.Row="2" Margin="0,30,0,0">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="*" />
+				</Grid.ColumnDefinitions>
+				<StackLayout Orientation="Vertical">
+					<Label
+						FontSize="17"
+						Text="Start Date"
+						TextColor="White" />
+					<Border
+						Background="White"
+						StrokeShape="RoundRectangle 12"
+						StrokeThickness="0">
+						<datePicker:SfDatePicker
+							x:Name="startDatePicker"
+							Format="MM_yyyy"
+							Mode="Dialog"
+							SelectedDate="{Binding SelectedStartDate, Mode=TwoWay}"
+							TextDisplayMode="Fade" />
+					</Border>
+					<Border
+						Background="White"
+						StrokeShape="RoundRectangle 12"
+						StrokeThickness="0">
+						<Label
+							Margin="10"
+							BackgroundColor="White"
+							Text="{Binding SelectedStartMonthYear}"
+							TextColor="Black">
+							<Label.GestureRecognizers>
+								<TapGestureRecognizer Tapped="OpenStartDatePicker" />
+							</Label.GestureRecognizers>
+						</Label>
+					</Border>
+				</StackLayout>
+				<StackLayout Grid.Column="1" Orientation="Vertical">
+					<Label
+						FontSize="17"
+						Text="Invest day"
+						TextColor="White" />
+					<Border StrokeShape="RoundRectangle 12">
+						<syncfusion:SfComboBox
+							ItemsSource="{Binding DaysToChooseFrom}"
+							SelectedItem="{Binding DcaSimulationInput.InvestDayOfTheMonth}"
+							TextColor="Black" />
+					</Border>
+				</StackLayout>
+				<StackLayout Grid.Column="2" Orientation="Vertical">
+					<Label
+						FontSize="17"
+						Text="End Date"
+						TextColor="White" />
+					<Border
+						Background="White"
+						StrokeShape="RoundRectangle 12"
+						StrokeThickness="0">
+						<datePicker:SfDatePicker
+							x:Name="endDatePicker"
+							Format="MM_yyyy"
+							Mode="Dialog"
+							SelectedDate="{Binding SelectedEndDate, Mode=TwoWay}"
+							TextDisplayMode="Fade" />
+					</Border>
+					<Border
+						Background="White"
+						StrokeShape="RoundRectangle 12"
+						StrokeThickness="0">
+						<Label
+							Margin="10"
+							BackgroundColor="White"
+							Text="{Binding SelectedEndMonthYear}"
+							TextColor="Black">
+							<Label.GestureRecognizers>
+								<TapGestureRecognizer Tapped="OpenEndDatePicker" />
+							</Label.GestureRecognizers>
+						</Label>
+					</Border>
+				</StackLayout>
+			</Grid>
+			<Button
+				Grid.Row="3"
+				Margin="0,30,0,0"
+				Clicked="CalculateDca"
+				Text="Calculate"
+				WidthRequest="150" />
 		</Grid>
 	</StackLayout>
 </ContentPage>

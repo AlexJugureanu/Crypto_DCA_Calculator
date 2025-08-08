@@ -4,16 +4,16 @@ namespace Crypto_DCA_Calculator_MobileApp.Services;
 
 public interface ICryptoDataService
 {
-	Task<Dictionary<DateTime, double>> GetMonthlyDcaPricesAsync(string coinId, string currency = "eur");
+	Task<Dictionary<DateTime, double>> GetMonthlyDcaPricesAsync(string coinId, long startTimestamp, long endTimestamp, string currency = "eur");
 }
 
 public class CryptoDataService : ICryptoDataService
 {
 	private static readonly HttpClient httpClient = new HttpClient();
 
-	public async Task<Dictionary<DateTime, double>> GetMonthlyDcaPricesAsync(string coinId, string currency = "eur")
+	public async Task<Dictionary<DateTime, double>> GetMonthlyDcaPricesAsync(string coinId, long startTimestamp, long endTimestamp, string currency = "eur")
 	{
-		var url = $"https://api.coingecko.com/api/v3/coins/{coinId}/market_chart?vs_currency={currency}&days=365&interval=daily";
+		var url = $"https://api.coingecko.com/api/v3/coins/{coinId}/market_chart/range?vs_currency={currency}&from={startTimestamp}&to={endTimestamp}";
 		var response = await httpClient.GetAsync(url);
 
 		//will throw an exception if the response is not successful

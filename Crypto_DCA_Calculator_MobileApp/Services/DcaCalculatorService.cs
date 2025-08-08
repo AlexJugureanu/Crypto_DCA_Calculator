@@ -4,15 +4,17 @@ namespace Crypto_DCA_Calculator_MobileApp.Services;
 
 public interface IDcaCalculatorService
 {
-	DcaResult CalculateDca(DcaSimulationInput input);
+	Task<DcaResult> CalculateDca(DcaSimulationInput input);
 }
 
-public class DcaCalculatorService : IDcaCalculatorService
+public class DcaCalculatorService(ICryptoDataService cryptoDataService) : IDcaCalculatorService
 {
 	private readonly List<int> _dcaValues = [100, 104, 108, 112, 109, 120, 129, 140, 131, 136, 137, 137, 148, 150, 159, 190, 220, 207, 201, 206, 208];
 
-	public DcaResult CalculateDca(DcaSimulationInput input)
+	public async Task<DcaResult> CalculateDca(DcaSimulationInput input)
 	{
+		var cryptoPrices = await cryptoDataService.GetMonthlyDcaPricesAsync(input.CryptoId, new DateTimeOffset(input.StartDate).ToUnixTimeSeconds(), new DateTimeOffset(input.EndDate).ToUnixTimeSeconds());
+
 		var numberOfMonths = GetNumberOfMonths(input.StartDate, input.EndDate);
 		if (numberOfMonths <= 0)
 			return new DcaResult();
