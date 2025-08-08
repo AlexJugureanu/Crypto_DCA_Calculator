@@ -32,8 +32,9 @@
 				</Grid.ColumnDefinitions>
 				<Border StrokeShape="RoundRectangle 12">
 					<syncfusion:SfComboBox
+						DisplayMemberPath="Name"
 						ItemsSource="{Binding CryptoCurrencies}"
-						SelectedItem="{Binding DcaSimulationInput.CryptoId}"
+						SelectedItem="{Binding DcaSimulationInput.CryptoCoin}"
 						TextColor="Black" />
 				</Border>
 				<Border Grid.Column="1" StrokeShape="RoundRectangle 12">

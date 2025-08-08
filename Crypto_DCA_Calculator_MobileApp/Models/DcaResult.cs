@@ -3,7 +3,7 @@
 public class DcaResult
 {
 	public int InvestDayOfTheMonth { get; set; }
-	public decimal AmountInvested { get; set; }
-	public decimal ValueToday { get; set; }
-	public decimal ProfitLoss { get; set; }
+	public double AmountInvested { get; set; }
+	public double ValueToday { get; set; }
+	public double ProfitLoss { get; set; }
 }

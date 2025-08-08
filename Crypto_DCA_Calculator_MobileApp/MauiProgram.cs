@@ -11,7 +11,7 @@ namespace Crypto_DCA_Calculator_MobileApp
         {
             var builder = MauiApp.CreateBuilder();
 
-			SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1JEaF1cWWhBYVJyWmFZfVtgdVdMY15bRndPIiBoS35Rc0VrWXhfcndXRGFYV0x0VEFd\r\n");
+			SyncfusionLicenseProvider.RegisterLicense("Mzk4NDcxNUAzMzMwMmUzMDJlMzAzYjMzMzAzYkZ3V1hpZWdpZGxmRjc4MVd5NmtsVXJTUjZzVllBVlJjWDFWSXp4NEtYSVk9\r\n");
 
 			builder.Services.AddTransient<IDcaCalculatorService, DcaCalculatorService>();
 			builder.Services.AddTransient<ICryptoDataService, CryptoDataService>();

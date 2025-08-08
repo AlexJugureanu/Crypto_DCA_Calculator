@@ -9,8 +9,8 @@ public partial class DcaSimulatorPage : ContentPage, INotifyPropertyChanged
 	private readonly IDcaCalculatorService _dcaCalculatorService;
 
 	public List<int> DaysToChooseFrom { get; set; } = [15, 20, 25];
-	private List<string> _cryptoCurrencies = ["Bitcoin (BTC)", "Ethereum (ETH)", "Solana (SOL)"];
-	public List<string> CryptoCurrencies
+	private List<CryptoType> _cryptoCurrencies = [new CryptoType { Id = "bitcoin", Name = "Bitcoin (BTC)" }];
+	public List<CryptoType> CryptoCurrencies
 	{
 		get => _cryptoCurrencies;
 		set
@@ -22,21 +22,6 @@ public partial class DcaSimulatorPage : ContentPage, INotifyPropertyChanged
 			}
 		}
 	}
-
-	private string _selectedCryptoCurrency;
-	public string SelectedCryptoCurrency
-	{
-		get => _selectedCryptoCurrency;
-		set
-		{
-			if (_selectedCryptoCurrency != value)
-			{
-				_selectedCryptoCurrency = value;
-				OnPropertyChanged(nameof(SelectedCryptoCurrency));
-			}
-		}
-	}
-
 
 	private DateTime _selectedStartDate;
 	public DateTime SelectedStartDate
@@ -75,6 +60,7 @@ public partial class DcaSimulatorPage : ContentPage, INotifyPropertyChanged
 
 
 	public DcaSimulationInput DcaSimulationInput { get; set; } = new();
+	public DcaResult DcaSimulationResult { get; set; } = new();
 
 	public DcaSimulatorPage(IDcaCalculatorService dcaCalculatorService)
 	{
@@ -82,7 +68,6 @@ public partial class DcaSimulatorPage : ContentPage, INotifyPropertyChanged
 
 		_dcaCalculatorService = dcaCalculatorService;
 
-		SelectedCryptoCurrency = _cryptoCurrencies[0];
 		SelectedStartDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
 		SelectedEndDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1).AddMonths(1);
 
@@ -101,7 +86,7 @@ public partial class DcaSimulatorPage : ContentPage, INotifyPropertyChanged
 
 	private async void CalculateDca(object sender, EventArgs e)
 	{
-		var result = await _dcaCalculatorService.CalculateDca(DcaSimulationInput);
+		DcaSimulationResult = await _dcaCalculatorService.CalculateDca(DcaSimulationInput);
 	}
 
 	public event PropertyChangedEventHandler? PropertyChanged;
