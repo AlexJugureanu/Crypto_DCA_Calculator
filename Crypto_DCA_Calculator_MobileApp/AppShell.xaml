@@ -5,9 +5,8 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 	xmlns:local="clr-namespace:Crypto_DCA_Calculator_MobileApp.Views"
 	Title="Crypto_DCA_Calculator_MobileApp">
-
 	<ShellContent
 		Title="DCA Simulator"
-		ContentTemplate="{DataTemplate local:DcaSimulatorPage}"
-		Route="DcaSimulatorPage" />
+		ContentTemplate="{DataTemplate local:LoginPage}"
+		Route="LoginPage" />
 </Shell>
