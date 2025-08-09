@@ -15,6 +15,7 @@ public class LogInViewModel : INotifyPropertyChanged
 
 	private string _statusMessage = string.Empty;
 	private bool _isBusy;
+	private bool _isError;
 	private string _email = string.Empty;
 	private string _password = string.Empty;
 
@@ -40,6 +41,19 @@ public class LogInViewModel : INotifyPropertyChanged
 			{
 				_isBusy = value;
 				OnPropertyChanged(nameof(IsBusy));
+			}
+		}
+	}
+
+	public bool IsError
+	{
+		get => _isError;
+		set
+		{
+			if (_isError != value)
+			{
+				_isError = value;
+				OnPropertyChanged(nameof(IsError));
 			}
 		}
 	}
@@ -89,17 +103,27 @@ public class LogInViewModel : INotifyPropertyChanged
 		try
 		{
 			if (string.IsNullOrWhiteSpace(Email) || string.IsNullOrWhiteSpace(Password))
+			{
 				StatusMessage = "Email and password can not be empty, please verify.";
-
+				IsError = true;
+				
+				return;
+			}
 			var result = await _authService.LogInAsync(Email, Password);
 			if (!result)
+			{
 				StatusMessage = "Log in failed, please check your email and password.";
+				IsError = true;
+
+				return;
+			}
 
 			await Shell.Current.GoToAsync(nameof(DcaSimulatorView));
 		}
 		catch (Exception ex)
 		{
 			StatusMessage = "Log in failed with the following message: " + ex.Message;
+			IsError = true;
 		}
 		finally
 		{

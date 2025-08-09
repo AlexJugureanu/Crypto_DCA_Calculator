@@ -4,6 +4,7 @@
 	xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 	xmlns:core="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
+	xmlns:popup="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
 	BackgroundColor="Black"
 	HideSoftInputOnTapped="True"
 	Shell.NavBarIsVisible="False">
@@ -22,6 +23,7 @@
 			<Entry
 				x:Name="EmailEntry"
 				BackgroundColor="White"
+				ClearButtonVisibility="WhileEditing"
 				HeightRequest="60"
 				Keyboard="Email"
 				Placeholder="Email"
@@ -32,6 +34,7 @@
 			<Entry
 				x:Name="PasswordEntry"
 				BackgroundColor="White"
+				ClearButtonVisibility="WhileEditing"
 				HeightRequest="60"
 				IsPassword="True"
 				Keyboard="Password"
@@ -39,6 +42,11 @@
 				Text="{Binding Password}"
 				TextColor="Black" />
 		</Border>
+
+		<popup:SfPopup
+			AcceptButtonText="Okay"
+			IsOpen="{Binding IsError}"
+			Message="{Binding StatusMessage}" />
 
 		<core:SfBusyIndicator
 			AnimationType="DoubleCircle"
