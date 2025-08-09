@@ -7,6 +7,6 @@
 	Title="Crypto_DCA_Calculator_MobileApp">
 	<ShellContent
 		Title="DCA Simulator"
-		ContentTemplate="{DataTemplate local:LoginView}"
-		Route="LoginView" />
+		ContentTemplate="{DataTemplate local:DcaSimulatorView}"
+		Route="DcaSimulatorView" />
 </Shell>

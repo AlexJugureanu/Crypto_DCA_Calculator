@@ -35,6 +35,9 @@
 					<Border StrokeShape="RoundRectangle 12">
 						<syncfusion:SfComboBox
 							DisplayMemberPath="Name"
+							FontAttributes="Bold"
+							FontFamily="Font1"
+							IsClearButtonVisible="False"
 							ItemsSource="{Binding CryptoCurrencies}"
 							SelectedItem="{Binding DcaSimulationInput.CryptoCoin}"
 							TextColor="Black" />
@@ -42,6 +45,8 @@
 					<Border Grid.Column="1" StrokeShape="RoundRectangle 12">
 						<Entry
 							BackgroundColor="white"
+							FontAttributes="Bold"
+							FontFamily="Font1"
 							Keyboard="Numeric"
 							Placeholder="Invest amount"
 							Text="{Binding DcaSimulationInput.MonthlyAmount}"
@@ -56,6 +61,8 @@
 					</Grid.ColumnDefinitions>
 					<StackLayout Orientation="Vertical">
 						<Label
+							FontAttributes="Bold"
+							FontFamily="Font1"
 							FontSize="17"
 							Text="Start Date"
 							TextColor="White" />
@@ -77,6 +84,8 @@
 							<Label
 								Margin="10"
 								BackgroundColor="White"
+								FontAttributes="Bold"
+								FontFamily="Font1"
 								Text="{Binding SelectedStartMonthYear}"
 								TextColor="Black">
 								<Label.GestureRecognizers>
@@ -87,11 +96,16 @@
 					</StackLayout>
 					<StackLayout Grid.Column="1" Orientation="Vertical">
 						<Label
+							FontAttributes="Bold"
+							FontFamily="Font1"
 							FontSize="17"
 							Text="Invest day"
 							TextColor="White" />
 						<Border StrokeShape="RoundRectangle 12">
 							<syncfusion:SfComboBox
+								FontAttributes="Bold"
+								FontFamily="Font1"
+								IsClearButtonVisible="False"
 								ItemsSource="{Binding DaysToChooseFrom}"
 								SelectedItem="{Binding DcaSimulationInput.InvestDayOfTheMonth}"
 								TextColor="Black" />
@@ -99,6 +113,8 @@
 					</StackLayout>
 					<StackLayout Grid.Column="2" Orientation="Vertical">
 						<Label
+							FontAttributes="Bold"
+							FontFamily="Font1"
 							FontSize="17"
 							Text="End Date"
 							TextColor="White" />
@@ -120,6 +136,8 @@
 							<Label
 								Margin="10"
 								BackgroundColor="White"
+								FontAttributes="Bold"
+								FontFamily="Font1"
 								Text="{Binding SelectedEndMonthYear}"
 								TextColor="Black">
 								<Label.GestureRecognizers>
@@ -132,55 +150,72 @@
 				<Button
 					Grid.Row="3"
 					Margin="0,30,0,0"
+					BackgroundColor="Blue"
 					Command="{Binding CalculateDataCommand}"
+					CornerRadius="12"
+					FontAttributes="Bold"
+					FontFamily="Font1"
 					Text="Calculate"
+					TextColor="White"
 					WidthRequest="150" />
 			</Grid>
 
+			<!--  Data Grid Result  -->
 			<Label
-				Margin="0,30,0,0"
+				Margin="30,30,0,20"
+				FontAttributes="Bold"
+				FontFamily="Font1"
 				FontSize="20"
 				Text="Result:"
 				TextColor="White" />
-			<dataGrid:SfDataGrid
-				BackgroundColor="White"
-				ColumnWidthMode="FitByHeader"
-				GridLinesVisibility="Horizontal"
-				HeightRequest="400"
-				ItemsSource="{Binding DcaSimListResult}">
-				<dataGrid:SfDataGrid.Columns>
-					<dataGrid:DataGridTextColumn
-						Format="0"
-						HeaderText="Date"
-						HeaderTextAlignment="Center"
-						LoadUIView="False"
-						MappingName="Date" />
-					<dataGrid:DataGridNumericColumn
-						CellTextAlignment="Center"
-						HeaderText="Invested Amount"
-						HeaderTextAlignment="Center"
-						LoadUIView="False"
-						MappingName="InvestedAmount" />
-					<dataGrid:DataGridNumericColumn
-						CellTextAlignment="Center"
-						HeaderText="Crypto Currency Amount"
-						HeaderTextAlignment="Center"
-						LoadUIView="False"
-						MappingName="CryptoCurrencyAmount" />
-					<dataGrid:DataGridNumericColumn
-						CellTextAlignment="Center"
-						HeaderText="Value Today"
-						HeaderTextAlignment="Center"
-						LoadUIView="False"
-						MappingName="ValueToday" />
-					<dataGrid:DataGridTextColumn
-						CellTextAlignment="Center"
-						HeaderText="ROI"
-						HeaderTextAlignment="Center"
-						LoadUIView="False"
-						MappingName="ROI" />
-				</dataGrid:SfDataGrid.Columns>
-			</dataGrid:SfDataGrid>
+			<Border
+				Background="White"
+				StrokeShape="RoundRectangle 12"
+				StrokeThickness="0">
+				<dataGrid:SfDataGrid
+					BackgroundColor="White"
+					ColumnWidthMode="None"
+					EnableDataVirtualization="True"
+					FrozenColumnCount="1"
+					GridLinesVisibility="Both"
+					HeaderGridLinesVisibility="Both"
+					HeaderRowHeight="100"
+					HeightRequest="400"
+					ItemsSource="{Binding DcaSimListResult}">
+					<dataGrid:SfDataGrid.Columns>
+						<dataGrid:DataGridTextColumn
+							Format="0"
+							HeaderText="Date"
+							HeaderTextAlignment="Center"
+							LoadUIView="False"
+							MappingName="Date" />
+						<dataGrid:DataGridNumericColumn
+							CellTextAlignment="Center"
+							HeaderText="Invested Amount"
+							HeaderTextAlignment="Center"
+							LoadUIView="False"
+							MappingName="InvestedAmount" />
+						<dataGrid:DataGridNumericColumn
+							CellTextAlignment="Center"
+							HeaderText="Crypto Currency Amount"
+							HeaderTextAlignment="Center"
+							LoadUIView="False"
+							MappingName="CryptoCurrencyAmount" />
+						<dataGrid:DataGridNumericColumn
+							CellTextAlignment="Center"
+							HeaderText="Value Today"
+							HeaderTextAlignment="Center"
+							LoadUIView="False"
+							MappingName="ValueToday" />
+						<dataGrid:DataGridTextColumn
+							CellTextAlignment="Center"
+							HeaderText="ROI"
+							HeaderTextAlignment="Center"
+							LoadUIView="False"
+							MappingName="ROI" />
+					</dataGrid:SfDataGrid.Columns>
+				</dataGrid:SfDataGrid>
+			</Border>
 		</StackLayout>
 	</ScrollView>
 </ContentPage>
