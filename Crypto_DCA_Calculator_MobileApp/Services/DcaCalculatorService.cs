@@ -54,7 +54,7 @@ public class DcaCalculatorService(ICryptoDataService cryptoDataService) : IDcaCa
 				InvestedAmount = input.MonthlyAmount * index,
 				CryptoCurrencyAmount = Math.Round(totalCoinsOwned, 5),
 				ValueToday = Math.Round(totalCoinsOwned * cryptoPrice.Value, 5),
-				ROI = Math.Round((totalCoinsOwned * cryptoPrice.Value - input.MonthlyAmount * index) / (input.MonthlyAmount * index) * 100, 5) + "%"
+				ROI = Math.Round((totalCoinsOwned * cryptoPrice.Value - input.MonthlyAmount * index) / (input.MonthlyAmount * index) * 100, 2) + "%"
 			};
 
 			index++;

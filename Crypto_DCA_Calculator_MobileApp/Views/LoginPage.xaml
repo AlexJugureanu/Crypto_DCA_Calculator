@@ -3,6 +3,7 @@
 	x:Class="Crypto_DCA_Calculator_MobileApp.Views.LoginPage"
 	xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	HideSoftInputOnTapped="True"
 	Shell.NavBarIsVisible="False">
 	<StackLayout Orientation="Vertical">
 		<Label
@@ -15,6 +16,7 @@
 			VerticalTextAlignment="Center" />
 		<Border Margin="30,100,30,0" StrokeShape="RoundRectangle 12">
 			<Entry
+				x:Name="EmailEntry"
 				BackgroundColor="White"
 				HeightRequest="60"
 				Keyboard="Email"
@@ -24,6 +26,7 @@
 		</Border>
 		<Border Margin="30,30,30,0" StrokeShape="RoundRectangle 12">
 			<Entry
+				x:Name="PasswordEntry"
 				BackgroundColor="White"
 				HeightRequest="60"
 				IsPassword="True"
@@ -35,7 +38,7 @@
 
 		<Button
 			Margin="0,30,0,0"
-			Clicked="Login"
+			Command="{Binding LogInCommand}"
 			Text="Log In"
 			WidthRequest="150" />
 	</StackLayout>

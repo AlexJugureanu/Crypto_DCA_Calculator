@@ -1,4 +1,5 @@
 ﻿using Crypto_DCA_Calculator_MobileApp.Services;
+using Crypto_DCA_Calculator_MobileApp.ViewModels;
 using Microsoft.Extensions.Logging;
 using Syncfusion.Licensing;
 using Syncfusion.Maui.Core.Hosting;
@@ -12,6 +13,9 @@ namespace Crypto_DCA_Calculator_MobileApp
 			var builder = MauiApp.CreateBuilder();
 
 			SyncfusionLicenseProvider.RegisterLicense("Mzk4NDcxNUAzMzMwMmUzMDJlMzAzYjMzMzAzYkZ3V1hpZWdpZGxmRjc4MVd5NmtsVXJTUjZzVllBVlJjWDFWSXp4NEtYSVk9\r\n");
+
+			builder.Services.AddTransient<DcaSimulatorViewModel>();
+			builder.Services.AddTransient<LogInViewModel>();
 
 			builder.Services.AddSingleton<IDcaCalculatorService, DcaCalculatorService>();
 			builder.Services.AddSingleton<ICryptoDataService, CryptoDataService>();

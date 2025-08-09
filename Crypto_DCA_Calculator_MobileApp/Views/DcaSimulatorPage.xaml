@@ -132,7 +132,7 @@
 				<Button
 					Grid.Row="3"
 					Margin="0,30,0,0"
-					Clicked="CalculateDca"
+					Command="{Binding CalculateDataCommand}"
 					Text="Calculate"
 					WidthRequest="150" />
 			</Grid>
