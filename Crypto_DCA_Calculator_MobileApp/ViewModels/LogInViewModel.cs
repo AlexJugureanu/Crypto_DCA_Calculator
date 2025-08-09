@@ -21,13 +21,27 @@ public class LogInViewModel : INotifyPropertyChanged
 	public string StatusMessage
 	{
 		get => _statusMessage;
-		set { _statusMessage = value; OnPropertyChanged(); }
+		set
+		{
+			if (_statusMessage != value)
+			{
+				_statusMessage = value;
+				OnPropertyChanged(nameof(StatusMessage));
+			}
+		}
 	}
 
 	public bool IsBusy
 	{
 		get => _isBusy;
-		set { _isBusy = value; OnPropertyChanged(); }
+		set
+		{
+			if (_isBusy != value)
+			{
+				_isBusy = value;
+				OnPropertyChanged(nameof(IsBusy));
+			}
+		}
 	}
 
 	public string Email
@@ -81,7 +95,7 @@ public class LogInViewModel : INotifyPropertyChanged
 			if (!result)
 				StatusMessage = "Log in failed, please check your email and password.";
 
-			await Shell.Current.GoToAsync(nameof(DcaSimulatorPage));
+			await Shell.Current.GoToAsync(nameof(DcaSimulatorView));
 		}
 		catch (Exception ex)
 		{

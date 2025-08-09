@@ -1,20 +1,24 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
-	x:Class="Crypto_DCA_Calculator_MobileApp.Views.LoginPage"
+	x:Class="Crypto_DCA_Calculator_MobileApp.Views.LoginView"
 	xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:core="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
+	BackgroundColor="Black"
 	HideSoftInputOnTapped="True"
 	Shell.NavBarIsVisible="False">
-	<StackLayout Orientation="Vertical">
+	<StackLayout
+		Padding="30,150"
+		Orientation="Vertical"
+		Spacing="20">
 		<Label
-			Margin="30,100,30,0"
 			FontAttributes="Bold"
 			FontFamily="Font1"
 			FontSize="20"
 			Text=" Welcome to Crypto DCA Calculator!"
 			TextColor="White"
 			VerticalTextAlignment="Center" />
-		<Border Margin="30,100,30,0" StrokeShape="RoundRectangle 12">
+		<Border StrokeShape="RoundRectangle 12">
 			<Entry
 				x:Name="EmailEntry"
 				BackgroundColor="White"
@@ -24,7 +28,7 @@
 				Text="{Binding Email}"
 				TextColor="Black" />
 		</Border>
-		<Border Margin="30,30,30,0" StrokeShape="RoundRectangle 12">
+		<Border StrokeShape="RoundRectangle 12">
 			<Entry
 				x:Name="PasswordEntry"
 				BackgroundColor="White"
@@ -36,10 +40,16 @@
 				TextColor="Black" />
 		</Border>
 
+		<core:SfBusyIndicator
+			AnimationType="DoubleCircle"
+			HeightRequest="50"
+			IndicatorColor="White"
+			IsRunning="{Binding IsBusy}"
+			IsVisible="{Binding IsBusy}" />
 		<Button
 			Margin="0,30,0,0"
 			Command="{Binding LogInCommand}"
-			Text="Log In"
-			WidthRequest="150" />
+			HorizontalOptions="Center"
+			Text="Log In" />
 	</StackLayout>
 </ContentPage>

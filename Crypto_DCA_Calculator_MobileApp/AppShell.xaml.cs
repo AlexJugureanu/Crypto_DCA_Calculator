@@ -8,8 +8,8 @@ namespace Crypto_DCA_Calculator_MobileApp
         {
             InitializeComponent();
 
-			Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
-			Routing.RegisterRoute(nameof(DcaSimulatorPage), typeof(DcaSimulatorPage));
+			Routing.RegisterRoute(nameof(LoginView), typeof(LoginView));
+			Routing.RegisterRoute(nameof(DcaSimulatorView), typeof(DcaSimulatorView));
 
 		}
 	}

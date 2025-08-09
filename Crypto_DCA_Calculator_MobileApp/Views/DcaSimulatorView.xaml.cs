@@ -2,9 +2,9 @@ using Crypto_DCA_Calculator_MobileApp.ViewModels;
 
 namespace Crypto_DCA_Calculator_MobileApp.Views;
 
-public partial class DcaSimulatorPage : ContentPage
+public partial class DcaSimulatorView : ContentPage
 {
-	public DcaSimulatorPage(DcaSimulatorViewModel vm)
+	public DcaSimulatorView(DcaSimulatorViewModel vm)
 	{
 		InitializeComponent();
 

@@ -64,6 +64,7 @@
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.0" />
 		<PackageReference Include="Supabase" Version="1.1.1" />
+		<PackageReference Include="Syncfusion.Maui.Core" Version="30.2.4" />
 		<PackageReference Include="Syncfusion.Maui.DataGrid" Version="30.2.4" />
 		<PackageReference Include="Syncfusion.Maui.Inputs" Version="30.2.4" />
 		<PackageReference Include="Syncfusion.Maui.Picker" Version="30.2.4" />
@@ -71,10 +72,19 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="Views\DcaSimulatorPage.xaml">
+	  <Compile Update="Views\DcaSimulatorView.xaml.cs">
+	    <DependentUpon>DcaSimulatorView.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\LoginView.xaml.cs">
+	    <DependentUpon>LoginView.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="Views\DcaSimulatorView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\LoginPage.xaml">
+	  <MauiXaml Update="Views\LoginView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>
