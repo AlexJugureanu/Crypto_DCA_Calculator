@@ -4,12 +4,12 @@ namespace Crypto_DCA_Calculator_MobileApp.Services;
 
 public interface ICryptoDataService
 {
-	 Task<Dictionary<DateTime, double>> GetMonthlyDcaPricesAsync(
-		string coinId,
-		long startTimestamp,
-		long endTimestamp,
-		int dcaDay,
-		string currency = "eur");
+	Task<Dictionary<DateTime, double>> GetMonthlyDcaPricesAsync(
+	   string coinId,
+	   long startTimestamp,
+	   long endTimestamp,
+	   int dcaDay,
+	   string currency = "eur");
 }
 
 public class CryptoDataService : ICryptoDataService
@@ -24,6 +24,10 @@ public class CryptoDataService : ICryptoDataService
 	string currency = "eur")
 	{
 		var url = $"https://api.coingecko.com/api/v3/coins/{coinId}/market_chart/range?vs_currency={currency}&from={startTimestamp}&to={endTimestamp}";
+
+		if (!httpClient.DefaultRequestHeaders.Contains("Authorization"))
+			httpClient.DefaultRequestHeaders.Add("Authorization", "CG-xeRJabVTyUPrCJ1t3HkDHjKq\t");
+
 		var response = await httpClient.GetAsync(url);
 		response.EnsureSuccessStatusCode();
 

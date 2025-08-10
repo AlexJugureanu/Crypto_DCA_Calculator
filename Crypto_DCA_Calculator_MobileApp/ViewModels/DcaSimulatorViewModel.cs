@@ -16,7 +16,7 @@ public class DcaSimulatorViewModel : INotifyPropertyChanged
 	private bool _isBusy;
 	private DateTime _selectedStartDate;
 	private DateTime _selectedEndDate;
-	private List<DcaResultForUser> _dcaSimListResult = [];
+	private List<DcaResultForUserUi> _dcaSimListResult = [];
 	
 	private List<CryptoType> _cryptoCurrencies = [new CryptoType { Id = "bitcoin", Name = "Bitcoin (BTC)" }];
 	public List<int> DaysToChooseFrom { get; set; } = [15, 20, 25];
@@ -80,7 +80,7 @@ public class DcaSimulatorViewModel : INotifyPropertyChanged
 
 	public DcaSimulationInput DcaSimulationInput { get; set; } = new();
 
-	public List<DcaResultForUser> DcaSimListResult
+	public List<DcaResultForUserUi> DcaSimListResult
 	{
 		get => _dcaSimListResult;
 		set
@@ -114,11 +114,24 @@ public class DcaSimulatorViewModel : INotifyPropertyChanged
 
 		try
 		{
-			DcaSimListResult = await _dcaCalculatorService.CalculateDca(DcaSimulationInput);
-			if (DcaSimListResult == null || DcaSimListResult.Count == 0)
+			var result = await _dcaCalculatorService.CalculateDca(DcaSimulationInput);
+			if (result == null || result.Count == 0)
 			{
 				// pop up for fail
 				StatusMessage = "Calculation failed. Reason? idk";
+			}
+
+			foreach(var record in result)
+			{
+				DcaSimListResult.Add(new DcaResultForUserUi
+				{
+					CryptoCurrencyAmount = record.CryptoCurrencyAmount.ToString(),
+					CryptoName = record.CryptoName,
+					Date = record.Date,
+					InvestedAmount = record.InvestedAmount,
+					ROI = record.ROI + "%",
+					ValueToday = record.ValueToday,
+				});
 			}
 		}
 		catch (Exception ex)

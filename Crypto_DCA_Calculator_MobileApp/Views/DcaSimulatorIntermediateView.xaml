@@ -5,6 +5,7 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 	xmlns:dataGrid="clr-namespace:Syncfusion.Maui.DataGrid;assembly=Syncfusion.Maui.DataGrid"
 	xmlns:datePicker="clr-namespace:Syncfusion.Maui.Picker;assembly=Syncfusion.Maui.Picker"
+	xmlns:listView="clr-namespace:Syncfusion.Maui.ListView;assembly=Syncfusion.Maui.ListView"
 	xmlns:syncfusion="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
 	BackgroundColor="Black"
 	Shell.NavBarIsVisible="False">
@@ -12,6 +13,7 @@
 		<StackLayout Orientation="Vertical">
 			<Grid>
 				<Grid.RowDefinitions>
+					<RowDefinition Height="*" />
 					<RowDefinition Height="*" />
 					<RowDefinition Height="*" />
 					<RowDefinition Height="*" />
@@ -31,29 +33,68 @@
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="*" />
 						<ColumnDefinition Width="*" />
+						<ColumnDefinition Width="*" />
 					</Grid.ColumnDefinitions>
-					<Border StrokeShape="RoundRectangle 12">
-						<syncfusion:SfComboBox
-							DisplayMemberPath="Name"
-							FontAttributes="Bold"
-							FontFamily="Font1"
-							IsClearButtonVisible="False"
-							ItemsSource="{Binding CryptoCurrencies}"
-							SelectedItem="{Binding DcaSimulationInput.CryptoCoin}"
-							TextColor="Black" />
-					</Border>
-					<Border Grid.Column="1" StrokeShape="RoundRectangle 12">
+					<StackLayout Orientation="Vertical">
+						<Button
+							x:Name="ManipulateListView_Btn"
+							Clicked="Button_Clicked"
+							Command="{Binding ConfirmCryptoSelectionCommand}"
+							Text="Select crypto" />
+					</StackLayout>
+					<Border
+						Grid.Column="1"
+						HeightRequest="50"
+						StrokeShape="RoundRectangle 12"
+						VerticalOptions="Start">
 						<Entry
 							BackgroundColor="white"
 							FontAttributes="Bold"
 							FontFamily="Font1"
+							HeightRequest="50"
 							Keyboard="Numeric"
 							Placeholder="Invest amount"
 							Text="{Binding DcaSimulationInput.MonthlyAmount}"
 							TextColor="Black" />
 					</Border>
+					<Border
+						Grid.Column="2"
+						HeightRequest="50"
+						StrokeShape="RoundRectangle 12"
+						VerticalOptions="Start">
+						<Entry
+							BackgroundColor="white"
+							FontAttributes="Bold"
+							FontFamily="Font1"
+							FontSize="13"
+							IsEnabled="False"
+							Placeholder="% for each coin"
+							Text="{Binding PercentageForEachCrypto}"
+							TextColor="Black" />
+					</Border>
 				</Grid>
-				<Grid Grid.Row="2" Margin="0,30,0,0">
+				<listView:SfListView
+					x:Name="CryptoListView"
+					Grid.Row="2"
+					BackgroundColor="Green"
+					HorizontalOptions="Start"
+					IsVisible="false"
+					ItemsSource="{Binding AvailableCryptoCurrencies}"
+					SelectionMode="None"
+					WidthRequest="200">
+					<listView:SfListView.ItemTemplate>
+						<DataTemplate>
+							<StackLayout Padding="10" Orientation="Horizontal">
+								<CheckBox IsChecked="{Binding IsSelected}" VerticalOptions="Center" />
+								<Label
+									Margin="10,0,0,0"
+									Text="{Binding Name}"
+									VerticalOptions="Center" />
+							</StackLayout>
+						</DataTemplate>
+					</listView:SfListView.ItemTemplate>
+				</listView:SfListView>
+				<Grid Grid.Row="3" Margin="0,30,0,0">
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="*" />
 						<ColumnDefinition Width="*" />
@@ -148,7 +189,7 @@
 					</StackLayout>
 				</Grid>
 				<Button
-					Grid.Row="3"
+					Grid.Row="4"
 					Margin="0,30,0,0"
 					BackgroundColor="Blue"
 					Command="{Binding CalculateDataCommand}"
@@ -174,13 +215,12 @@
 				StrokeThickness="0">
 				<dataGrid:SfDataGrid
 					BackgroundColor="White"
-					ColumnWidthMode="None"
+					ColumnWidthMode="FitByCell"
 					EnableDataVirtualization="True"
 					FrozenColumnCount="1"
 					GridLinesVisibility="Both"
 					HeaderGridLinesVisibility="Both"
 					HeaderRowHeight="100"
-					HeightRequest="400"
 					ItemsSource="{Binding DcaSimListResult}">
 					<dataGrid:SfDataGrid.Columns>
 						<dataGrid:DataGridTextColumn
@@ -195,7 +235,7 @@
 							HeaderTextAlignment="Center"
 							LoadUIView="False"
 							MappingName="InvestedAmount" />
-						<dataGrid:DataGridNumericColumn
+						<dataGrid:DataGridTextColumn
 							CellTextAlignment="Center"
 							HeaderText="Crypto Currency Amount"
 							HeaderTextAlignment="Center"
