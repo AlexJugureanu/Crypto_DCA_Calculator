@@ -83,6 +83,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="Views\DcaSimulatorAdvancedView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\DcaSimulatorIntermediateView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

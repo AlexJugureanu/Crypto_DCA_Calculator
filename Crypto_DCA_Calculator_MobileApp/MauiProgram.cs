@@ -16,6 +16,7 @@ namespace Crypto_DCA_Calculator_MobileApp
 
 			builder.Services.AddTransient<DcaSimulatorViewModel>();
 			builder.Services.AddTransient<DcaSimulatorIntermediateViewModel>();
+			builder.Services.AddTransient<DcaSimulatorAdvancedViewModel>();
 			builder.Services.AddTransient<LogInViewModel>();
 
 			builder.Services.AddSingleton<IDcaCalculatorService, DcaCalculatorService>();
