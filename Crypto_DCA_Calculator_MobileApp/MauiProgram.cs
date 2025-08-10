@@ -15,6 +15,7 @@ namespace Crypto_DCA_Calculator_MobileApp
 			SyncfusionLicenseProvider.RegisterLicense("Mzk4NDcxNUAzMzMwMmUzMDJlMzAzYjMzMzAzYkZ3V1hpZWdpZGxmRjc4MVd5NmtsVXJTUjZzVllBVlJjWDFWSXp4NEtYSVk9\r\n");
 
 			builder.Services.AddTransient<DcaSimulatorViewModel>();
+			builder.Services.AddTransient<DcaSimulatorIntermediateViewModel>();
 			builder.Services.AddTransient<LogInViewModel>();
 
 			builder.Services.AddSingleton<IDcaCalculatorService, DcaCalculatorService>();

@@ -10,6 +10,7 @@ namespace Crypto_DCA_Calculator_MobileApp
 
 			Routing.RegisterRoute(nameof(LoginView), typeof(LoginView));
 			Routing.RegisterRoute(nameof(DcaSimulatorView), typeof(DcaSimulatorView));
+			Routing.RegisterRoute(nameof(DcaSimulatorIntermediateView), typeof(DcaSimulatorIntermediateView));
 
 		}
 	}

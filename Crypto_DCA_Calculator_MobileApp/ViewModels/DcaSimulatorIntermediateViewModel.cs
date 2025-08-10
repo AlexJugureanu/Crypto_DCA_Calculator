@@ -6,7 +6,7 @@ using System.Windows.Input;
 
 namespace Crypto_DCA_Calculator_MobileApp.ViewModels;
 
-public class DcaSimulatorViewModel : INotifyPropertyChanged
+public class DcaSimulatorIntermediateViewModel
 {
 	private readonly IDcaCalculatorService _dcaCalculatorService;
 
@@ -17,7 +17,7 @@ public class DcaSimulatorViewModel : INotifyPropertyChanged
 	private DateTime _selectedStartDate;
 	private DateTime _selectedEndDate;
 	private List<DcaResultForUser> _dcaSimListResult = [];
-	
+
 	private List<CryptoType> _cryptoCurrencies = [new CryptoType { Id = "bitcoin", Name = "Bitcoin (BTC)" }];
 	public List<int> DaysToChooseFrom { get; set; } = [15, 20, 25];
 	public string SelectedStartMonthYear => SelectedStartDate.ToString("MM/yyyy");
@@ -95,7 +95,7 @@ public class DcaSimulatorViewModel : INotifyPropertyChanged
 
 	public ICommand CalculateDataCommand { get; }
 
-	public DcaSimulatorViewModel(IDcaCalculatorService dcaCalculatorService)
+	public DcaSimulatorIntermediateViewModel(IDcaCalculatorService dcaCalculatorService)
 	{
 		_dcaCalculatorService = dcaCalculatorService;
 
