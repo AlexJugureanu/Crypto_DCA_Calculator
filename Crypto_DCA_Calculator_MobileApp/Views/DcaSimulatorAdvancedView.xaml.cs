@@ -11,6 +11,12 @@ public partial class DcaSimulatorAdvancedView : ContentPage
 		BindingContext = vm;
 	}
 
+	protected override async void OnAppearing()
+	{
+		base.OnAppearing();
+		await ((DcaSimulatorAdvancedViewModel)BindingContext).InitializeCryptoCurrenciesCommand.ExecuteAsync(null);
+	}
+
 	public void OpenStartDatePicker(object sender, TappedEventArgs e)
 	{
 		startDatePicker.IsOpen = true;

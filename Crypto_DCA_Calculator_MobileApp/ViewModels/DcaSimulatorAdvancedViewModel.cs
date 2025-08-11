@@ -4,12 +4,16 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 namespace Crypto_DCA_Calculator_MobileApp.ViewModels;
 
 public class DcaSimulatorAdvancedViewModel : INotifyPropertyChanged
 {
 	private readonly IDcaCalculatorService _dcaCalculatorService;
+	private readonly ISupabaseStorageService _supabaseStorageService;
+
 
 	public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -19,12 +23,7 @@ public class DcaSimulatorAdvancedViewModel : INotifyPropertyChanged
 	private DateTime _selectedEndDate;
 	private List<DcaResultForUserUi> _dcaSimListResult = [];
 
-	private ObservableCollection<CryptoType> _cryptoCurrencies =
-		[new CryptoType { Id = "bitcoin", Name = "Bitcoin (BTC)" },
-		new CryptoType { Id = "ethereum", Name = "Ethereum (ETH)" },
-		new CryptoType { Id = "solana", Name = "Solana (SLN)" },
-		new CryptoType { Id = "ripple", Name = "Ripple (RPL)" }];
-
+	private ObservableCollection<CryptoType> _cryptoCurrencies = [];
 	private ObservableCollection<CryptoType> _selectedCryptoCurrencies = [];
 	private CryptoType _selectedCryptoCurrency = new();
 
@@ -160,13 +159,18 @@ public class DcaSimulatorAdvancedViewModel : INotifyPropertyChanged
 
 	public ICommand CalculateDataCommand { get; }
 	public ICommand AddCryptoCommand { get; }
+	public IAsyncRelayCommand InitializeCryptoCurrenciesCommand { get; }
 
-	public DcaSimulatorAdvancedViewModel(IDcaCalculatorService dcaCalculatorService)
+	public DcaSimulatorAdvancedViewModel(
+		IDcaCalculatorService dcaCalculatorService,
+		ISupabaseStorageService supabaseStorageService)
 	{
 		_dcaCalculatorService = dcaCalculatorService;
+		_supabaseStorageService = supabaseStorageService;
 
 		CalculateDataCommand = new Command(async () => await CalculateDataAsync(), () => !IsBusy);
 		AddCryptoCommand = new Command(AddCrypto);
+		InitializeCryptoCurrenciesCommand = new AsyncRelayCommand(InitializeCryptoCurrenciesList, () => !IsBusy);
 
 		SelectedStartDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month - 1, 1);
 		SelectedEndDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
@@ -182,7 +186,7 @@ public class DcaSimulatorAdvancedViewModel : INotifyPropertyChanged
 		try
 		{
 			List<DcaResultForUser> response;
-			foreach(var simInput in dcaSimulationInputList)
+			foreach (var simInput in dcaSimulationInputList)
 			{
 				response = await _dcaCalculatorService.CalculateDca(simInput);
 				var newUiResult = new List<DcaResultForUserUi>();
@@ -228,6 +232,17 @@ public class DcaSimulatorAdvancedViewModel : INotifyPropertyChanged
 			CryptoCoin = new(),
 			InvestDayOfTheMonth = DaysToChooseFrom[0]
 		};
+	}
+
+	private async Task InitializeCryptoCurrenciesList()
+	{
+		var cryptCoins = await _supabaseStorageService.GetCryptoCoinsAsync();
+
+		CryptoCurrencies = new ObservableCollection<CryptoType>(cryptCoins.Select(x => new CryptoType
+		{
+			Name = x.Name,
+			Id = x.CryptoId
+		}));
 	}
 
 	protected void OnPropertyChanged([CallerMemberName] string name = null)

@@ -27,6 +27,12 @@ namespace Crypto_DCA_Calculator_MobileApp
 					"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ4dG95Z3NrdHdtZGlzcGNja2VxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ3MjQ3MzMsImV4cCI6MjA3MDMwMDczM30.D43438P-0vAaOzmUKuqUNXEKinqrMRdNr-caYsS36Co"
 				)
 			);
+			builder.Services.AddSingleton<ISupabaseStorageService>(s =>
+				new SupabaseStorageService(
+					"https://fxtoygsktwmdispcckeq.supabase.co",
+					"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ4dG95Z3NrdHdtZGlzcGNja2VxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ3MjQ3MzMsImV4cCI6MjA3MDMwMDczM30.D43438P-0vAaOzmUKuqUNXEKinqrMRdNr-caYsS36Co"
+				)
+			);
 
 			builder
 				.UseMauiApp<App>()
