@@ -21,7 +21,7 @@ public class DcaSimulatorAdvancedViewModel : INotifyPropertyChanged
 	private bool _isBusy;
 	private DateTime _selectedStartDate;
 	private DateTime _selectedEndDate;
-	private List<DcaResultForUserUi> _dcaSimListResult = [];
+	private List<DcaResultForUser> _dcaSimListResult = [];
 
 	private ObservableCollection<CryptoType> _cryptoCurrencies = [];
 	private ObservableCollection<CryptoType> _selectedCryptoCurrencies = [];
@@ -30,7 +30,7 @@ public class DcaSimulatorAdvancedViewModel : INotifyPropertyChanged
 	private List<DcaSimulationInput> dcaSimulationInputList = [];
 	private DcaSimulationInput _dcaSimulationInput = new();
 
-	private Dictionary<CryptoType, List<DcaResultForUserUi>> _listResult = [];
+	private Dictionary<CryptoType, List<DcaResultForUser>> _listResult = [];
 
 	public List<int> DaysToChooseFrom { get; set; } = [15, 20, 25];
 	public string SelectedStartMonthYear => SelectedStartDate.ToString("MM/yyyy");
@@ -118,7 +118,7 @@ public class DcaSimulatorAdvancedViewModel : INotifyPropertyChanged
 		}
 	}
 
-	public List<DcaResultForUserUi> DcaSimListResult
+	public List<DcaResultForUser> DcaSimListResult
 	{
 		get => _dcaSimListResult;
 		set
@@ -144,7 +144,7 @@ public class DcaSimulatorAdvancedViewModel : INotifyPropertyChanged
 		}
 	}
 
-	public Dictionary<CryptoType, List<DcaResultForUserUi>> ListResult
+	public Dictionary<CryptoType, List<DcaResultForUser>> ListResult
 	{
 		get => _listResult;
 		set
@@ -185,27 +185,37 @@ public class DcaSimulatorAdvancedViewModel : INotifyPropertyChanged
 
 		try
 		{
+			//TODO improve cause is needed
+			//var cryptosToRemoveFromList = dcaSimulationInputList.Where(x => ListResult.ContainsKey(x.CryptoCoin));
+			//foreach (var crypto in cryptosToRemoveFromList)
+			//{
+			//	dcaSimulationInputList.Remove(crypto);
+			//}
+
 			List<DcaResultForUser> response;
+			ListResult = [];
 			foreach (var simInput in dcaSimulationInputList)
 			{
 				response = await _dcaCalculatorService.CalculateDca(simInput);
-				var newUiResult = new List<DcaResultForUserUi>();
+				var newUiResult = new List<DcaResultForUser>();
 
 				foreach (var record in response)
 				{
-					newUiResult.Add(new DcaResultForUserUi
+					newUiResult.Add(new DcaResultForUser
 					{
-						CryptoCurrencyAmount = record.CryptoCurrencyAmount.ToString(),
-						CryptoName = record.CryptoName,
+						CryptoCurrencyAmount = record.CryptoCurrencyAmount,
+						CryptoName = simInput.CryptoCoin.Name,
 						Date = record.Date,
 						InvestedAmount = record.InvestedAmount,
-						ROI = record.ROI + "%",
+						ROI = record.ROI,
 						ValueToday = record.ValueToday,
 					});
 				}
 
 				ListResult.Add(simInput.CryptoCoin, newUiResult);
 			}
+
+			DcaSimListResult = ListResult.FirstOrDefault().Value;
 		}
 		catch (Exception ex)
 		{

@@ -3,6 +3,7 @@
 	x:Class="Crypto_DCA_Calculator_MobileApp.Views.DcaSimulatorAdvancedView"
 	xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:chart="clr-namespace:Syncfusion.Maui.Charts;assembly=Syncfusion.Maui.Charts"
 	xmlns:dataGrid="clr-namespace:Syncfusion.Maui.DataGrid;assembly=Syncfusion.Maui.DataGrid"
 	xmlns:datePicker="clr-namespace:Syncfusion.Maui.Picker;assembly=Syncfusion.Maui.Picker"
 	xmlns:syncfusion="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
@@ -248,6 +249,84 @@
 					</dataGrid:SfDataGrid.Columns>
 				</dataGrid:SfDataGrid>
 			</Border>
+
+			<chart:SfCartesianChart Margin="60" BackgroundColor="White">
+				<chart:SfCartesianChart.XAxes>
+					<chart:CategoryAxis />
+				</chart:SfCartesianChart.XAxes>
+
+				<chart:SfCartesianChart.YAxes>
+					<chart:NumericalAxis />
+				</chart:SfCartesianChart.YAxes>
+
+				<chart:LineSeries
+					ItemsSource="{Binding DcaSimListResult}"
+					ShowMarkers="True"
+					XBindingPath="Date"
+					YBindingPath="ROI" />
+			</chart:SfCartesianChart>
+
+			<StackLayout Orientation="Horizontal">
+				<chart:SfCartesianChart BackgroundColor="White" WidthRequest="200">
+					<chart:SfCartesianChart.XAxes>
+						<chart:CategoryAxis />
+					</chart:SfCartesianChart.XAxes>
+
+					<chart:SfCartesianChart.YAxes>
+						<chart:NumericalAxis />
+					</chart:SfCartesianChart.YAxes>
+
+					<chart:ColumnSeries
+						ItemsSource="{Binding DcaSimListResult}"
+						XBindingPath="Date"
+						YBindingPath="InvestedAmount" />
+				</chart:SfCartesianChart>
+
+				<chart:SfCartesianChart BackgroundColor="White" WidthRequest="200">
+					<chart:SfCartesianChart.XAxes>
+						<chart:CategoryAxis />
+					</chart:SfCartesianChart.XAxes>
+
+					<chart:SfCartesianChart.YAxes>
+						<chart:NumericalAxis />
+					</chart:SfCartesianChart.YAxes>
+
+					<chart:ColumnSeries
+						ItemsSource="{Binding DcaSimListResult}"
+						XBindingPath="Date"
+						YBindingPath="ValueToday" />
+				</chart:SfCartesianChart>
+			</StackLayout>
+
+			<chart:SfCircularChart>
+
+				<chart:SfCircularChart.Resources>
+					<DataTemplate x:Key="labelTemplate">
+						<HorizontalStackLayout Spacing="5">
+							<Label
+								FontSize="13"
+								Text="{Binding Item.CryptoName}"
+								TextColor="White" />
+							<Label
+								FontSize="13"
+								Text=" : "
+								TextColor="White" />
+							<Label
+								FontSize="13"
+								Text="{Binding Item.CryptoCurrencyAmount}"
+								TextColor="White" />
+						</HorizontalStackLayout>
+					</DataTemplate>
+				</chart:SfCircularChart.Resources>
+
+				<chart:PieSeries
+					ItemsSource="{Binding DcaSimListResult}"
+					LabelTemplate="{StaticResource labelTemplate}"
+					ShowDataLabels="True"
+					XBindingPath="CryptoName"
+					YBindingPath="CryptoCurrencyAmount" />
+
+			</chart:SfCircularChart>
 		</StackLayout>
 	</ScrollView>
 </ContentPage>
