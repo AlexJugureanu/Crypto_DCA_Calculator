@@ -4,6 +4,7 @@
 	xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 	xmlns:chart="clr-namespace:Syncfusion.Maui.Charts;assembly=Syncfusion.Maui.Charts"
+	xmlns:converters="clr-namespace:Crypto_DCA_Calculator_MobileApp.Converters"
 	xmlns:core="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
 	xmlns:dataGrid="clr-namespace:Syncfusion.Maui.DataGrid;assembly=Syncfusion.Maui.DataGrid"
 	xmlns:datePicker="clr-namespace:Syncfusion.Maui.Picker;assembly=Syncfusion.Maui.Picker"
@@ -29,8 +30,8 @@
 				<Setter Property="FontFamily" Value="Font1" />
 				<Setter Property="FontAttributes" Value="Bold" />
 				<Setter Property="TextColor" Value="White" />
-
 			</Style>
+			<converters:NullToBoolConverter x:Key="NullToBoolConverter" />
 		</ResourceDictionary>
 	</ContentPage.Resources>
 	<ScrollView>
@@ -195,9 +196,9 @@
 					<ColumnDefinition Width="*" />
 				</Grid.ColumnDefinitions>
 				<Label
-					FontSize="20"
+					FontSize="13 "
 					HorizontalOptions="Start"
-					Text="Result:"
+					Text="To see the results you need to select a coin from the next dropdown"
 					TextColor="White" />
 				<Border Grid.Column="1" StrokeShape="RoundRectangle 12">
 					<inputs:SfComboBox
@@ -206,132 +207,146 @@
 						SelectedItem="{Binding SelectedCryptoCurrency}" />
 				</Border>
 			</Grid>
-			<Border
-				Background="White"
-				StrokeShape="RoundRectangle 12"
-				StrokeThickness="0">
-				<dataGrid:SfDataGrid
-					BackgroundColor="White"
-					ColumnWidthMode="None"
-					EnableDataVirtualization="True"
-					FrozenColumnCount="1"
-					GridLinesVisibility="Both"
-					HeaderGridLinesVisibility="Both"
-					HeaderRowHeight="100"
-					HeightRequest="400"
-					ItemsSource="{Binding DcaSimListResult}">
-					<dataGrid:SfDataGrid.Columns>
-						<dataGrid:DataGridTextColumn
-							Format="0"
-							HeaderText="Date"
-							HeaderTextAlignment="Center"
-							LoadUIView="False"
-							MappingName="Date" />
-						<dataGrid:DataGridNumericColumn
-							CellTextAlignment="Center"
-							HeaderText="Invested Amount"
-							HeaderTextAlignment="Center"
-							LoadUIView="False"
-							MappingName="InvestedAmount" />
-						<dataGrid:DataGridNumericColumn
-							CellTextAlignment="Center"
-							HeaderText="Crypto Currency Amount"
-							HeaderTextAlignment="Center"
-							LoadUIView="False"
-							MappingName="CryptoCurrencyAmount" />
-						<dataGrid:DataGridNumericColumn
-							CellTextAlignment="Center"
-							HeaderText="Value Today"
-							HeaderTextAlignment="Center"
-							LoadUIView="False"
-							MappingName="ValueToday" />
-						<dataGrid:DataGridTextColumn
-							CellTextAlignment="Center"
-							HeaderText="ROI"
-							HeaderTextAlignment="Center"
-							LoadUIView="False"
-							MappingName="ROI" />
-					</dataGrid:SfDataGrid.Columns>
-				</dataGrid:SfDataGrid>
-			</Border>
-
-			<chart:SfCartesianChart Margin="60" BackgroundColor="White">
-				<chart:SfCartesianChart.XAxes>
-					<chart:CategoryAxis />
-				</chart:SfCartesianChart.XAxes>
-
-				<chart:SfCartesianChart.YAxes>
-					<chart:NumericalAxis />
-				</chart:SfCartesianChart.YAxes>
-
-				<chart:LineSeries
-					ItemsSource="{Binding DcaSimListResult}"
-					ShowMarkers="True"
-					XBindingPath="Date"
-					YBindingPath="ROI" />
-			</chart:SfCartesianChart>
-
-			<StackLayout Orientation="Horizontal">
-				<chart:SfCartesianChart BackgroundColor="White" WidthRequest="200">
-					<chart:SfCartesianChart.XAxes>
-						<chart:CategoryAxis />
-					</chart:SfCartesianChart.XAxes>
-
-					<chart:SfCartesianChart.YAxes>
-						<chart:NumericalAxis />
-					</chart:SfCartesianChart.YAxes>
-
-					<chart:ColumnSeries
+			<StackLayout IsVisible="{Binding SelectedCryptoCurrency, Converter={StaticResource NullToBoolConverter}}" Orientation="Vertical">
+				<Border
+					Background="White"
+					StrokeShape="RoundRectangle 12"
+					StrokeThickness="0">
+					<dataGrid:SfDataGrid
+						ColumnWidthMode="None"
+						EnableDataVirtualization="True"
+						FrozenColumnCount="1"
+						GridLinesVisibility="Both"
+						HeaderGridLinesVisibility="Both"
+						HeaderRowHeight="100"
 						ItemsSource="{Binding DcaSimListResult}"
-						XBindingPath="Date"
-						YBindingPath="InvestedAmount" />
-				</chart:SfCartesianChart>
+						MaximumHeightRequest="400">
+						<dataGrid:SfDataGrid.Columns>
+							<dataGrid:DataGridTextColumn
+								HeaderText="Date"
+								HeaderTextAlignment="Center"
+								LoadUIView="False"
+								MappingName="Date" />
+							<dataGrid:DataGridNumericColumn
+								CellTextAlignment="Center"
+								HeaderText="Invested Amount"
+								HeaderTextAlignment="Center"
+								LoadUIView="False"
+								MappingName="InvestedAmount" />
+							<dataGrid:DataGridNumericColumn
+								CellTextAlignment="Center"
+								HeaderText="Crypto Currency Amount"
+								HeaderTextAlignment="Center"
+								LoadUIView="False"
+								MappingName="CryptoCurrencyAmount" />
+							<dataGrid:DataGridNumericColumn
+								CellTextAlignment="Center"
+								HeaderText="Value Today"
+								HeaderTextAlignment="Center"
+								LoadUIView="False"
+								MappingName="ValueToday" />
+							<dataGrid:DataGridTextColumn
+								CellTextAlignment="Center"
+								HeaderText="ROI"
+								HeaderTextAlignment="Center"
+								LoadUIView="False"
+								MappingName="ROI" />
+						</dataGrid:SfDataGrid.Columns>
+					</dataGrid:SfDataGrid>
+				</Border>
 
-				<chart:SfCartesianChart BackgroundColor="White" WidthRequest="200">
-					<chart:SfCartesianChart.XAxes>
-						<chart:CategoryAxis />
-					</chart:SfCartesianChart.XAxes>
+				<Label
+					Margin="0,50,0,0"
+					FontSize="13"
+					HorizontalOptions="Start"
+					Text="ROI Chart:"
+					TextColor="White" />
+				<Border Grid.Column="1" StrokeShape="RoundRectangle 12">
+					<chart:SfCartesianChart BackgroundColor="White" MaximumHeightRequest="400">
+						<chart:SfCartesianChart.XAxes>
+							<chart:CategoryAxis />
+						</chart:SfCartesianChart.XAxes>
+						<chart:SfCartesianChart.YAxes>
+							<chart:NumericalAxis />
+						</chart:SfCartesianChart.YAxes>
+						<chart:LineSeries
+							ItemsSource="{Binding DcaSimListResult}"
+							ShowMarkers="True"
+							XBindingPath="Date"
+							YBindingPath="ROI" />
+					</chart:SfCartesianChart>
+				</Border>
 
-					<chart:SfCartesianChart.YAxes>
-						<chart:NumericalAxis />
-					</chart:SfCartesianChart.YAxes>
+				<Label
+					Margin="0,50,0,0"
+					FontSize="13"
+					HorizontalOptions="Start"
+					Text="Invested vs Value today Chart:"
+					TextColor="White" />
+				<Border Grid.Column="1" StrokeShape="RoundRectangle 12">
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="*" />
+							<ColumnDefinition Width="*" />
+						</Grid.ColumnDefinitions>
+						<chart:SfCartesianChart BackgroundColor="White">
+							<chart:SfCartesianChart.XAxes>
+								<chart:CategoryAxis />
+							</chart:SfCartesianChart.XAxes>
+							<chart:SfCartesianChart.YAxes>
+								<chart:NumericalAxis />
+							</chart:SfCartesianChart.YAxes>
+							<chart:ColumnSeries
+								ItemsSource="{Binding DcaSimListResult}"
+								XBindingPath="Date"
+								YBindingPath="InvestedAmount" />
+						</chart:SfCartesianChart>
 
-					<chart:ColumnSeries
+						<chart:SfCartesianChart Grid.Column="1" BackgroundColor="White">
+							<chart:SfCartesianChart.XAxes>
+								<chart:CategoryAxis />
+							</chart:SfCartesianChart.XAxes>
+							<chart:SfCartesianChart.YAxes>
+								<chart:NumericalAxis />
+							</chart:SfCartesianChart.YAxes>
+							<chart:ColumnSeries
+								ItemsSource="{Binding DcaSimListResult}"
+								XBindingPath="Date"
+								YBindingPath="ValueToday" />
+						</chart:SfCartesianChart>
+					</Grid>
+				</Border>
+
+				<chart:SfCircularChart>
+
+					<chart:SfCircularChart.Resources>
+						<DataTemplate x:Key="labelTemplate">
+							<HorizontalStackLayout Spacing="5">
+								<Label
+									FontSize="13"
+									Text="{Binding Item.CryptoName}"
+									TextColor="White" />
+								<Label
+									FontSize="13"
+									Text=" : "
+									TextColor="White" />
+								<Label
+									FontSize="13"
+									Text="{Binding Item.CryptoCurrencyAmount}"
+									TextColor="White" />
+							</HorizontalStackLayout>
+						</DataTemplate>
+					</chart:SfCircularChart.Resources>
+
+					<chart:PieSeries
 						ItemsSource="{Binding DcaSimListResult}"
-						XBindingPath="Date"
-						YBindingPath="ValueToday" />
-				</chart:SfCartesianChart>
+						LabelTemplate="{StaticResource labelTemplate}"
+						ShowDataLabels="True"
+						XBindingPath="CryptoName"
+						YBindingPath="CryptoCurrencyAmount" />
+
+				</chart:SfCircularChart>
 			</StackLayout>
-
-			<chart:SfCircularChart>
-
-				<chart:SfCircularChart.Resources>
-					<DataTemplate x:Key="labelTemplate">
-						<HorizontalStackLayout Spacing="5">
-							<Label
-								FontSize="13"
-								Text="{Binding Item.CryptoName}"
-								TextColor="White" />
-							<Label
-								FontSize="13"
-								Text=" : "
-								TextColor="White" />
-							<Label
-								FontSize="13"
-								Text="{Binding Item.CryptoCurrencyAmount}"
-								TextColor="White" />
-						</HorizontalStackLayout>
-					</DataTemplate>
-				</chart:SfCircularChart.Resources>
-
-				<chart:PieSeries
-					ItemsSource="{Binding DcaSimListResult}"
-					LabelTemplate="{StaticResource labelTemplate}"
-					ShowDataLabels="True"
-					XBindingPath="CryptoName"
-					YBindingPath="CryptoCurrencyAmount" />
-
-			</chart:SfCircularChart>
 		</StackLayout>
 	</ScrollView>
 </ContentPage>

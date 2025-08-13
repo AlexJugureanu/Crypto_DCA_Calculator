@@ -126,7 +126,7 @@ public class DcaSimulatorIntermediateViewModel : INotifyPropertyChanged
 			var result = await _dcaCalculatorService.CalculateDcaIntermediate(DcaSimulationInput);
 			if (result == null || result.Count == 0)
 			{
-				// pop up for fail
+				// pop up for fail - to be added
 				StatusMessage = "Calculation failed. Reason? idk";
 			}
 

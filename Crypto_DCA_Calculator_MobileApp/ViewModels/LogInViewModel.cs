@@ -6,6 +6,9 @@ using System.Windows.Input;
 
 namespace Crypto_DCA_Calculator_MobileApp.ViewModels;
 
+
+// GO TO LINE 125 TO CHANGE THE VIEW YOU WANT TO SEE AS DETAILED IN THE DOC
+
 public class LogInViewModel : INotifyPropertyChanged
 {
 	private readonly IAuthService _authService;
@@ -118,7 +121,8 @@ public class LogInViewModel : INotifyPropertyChanged
 				return;
 			}
 
-			await Shell.Current.GoToAsync(nameof(DcaSimulatorView));
+			//Change here the page you want to go
+			await Shell.Current.GoToAsync(nameof(DcaSimulatorAdvancedView));
 		}
 		catch (Exception ex)
 		{
