@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
-using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
 namespace Crypto_DCA_Calculator_MobileApp.ViewModels;
@@ -39,13 +38,27 @@ public class DcaSimulatorAdvancedViewModel : INotifyPropertyChanged
 	public string StatusMessage
 	{
 		get => _statusMessage;
-		set { _statusMessage = value; OnPropertyChanged(); }
+		set
+		{
+			if (_statusMessage != value)
+			{
+				_statusMessage = value;
+				OnPropertyChanged(nameof(StatusMessage));
+			}
+		}
 	}
 
 	public bool IsBusy
 	{
 		get => _isBusy;
-		set { _isBusy = value; OnPropertyChanged(); }
+		set
+		{
+			if (_isBusy != value)
+			{
+				_isBusy = value;
+				OnPropertyChanged(nameof(IsBusy));
+			}
+		}
 	}
 
 	public DateTime SelectedStartDate
@@ -157,8 +170,8 @@ public class DcaSimulatorAdvancedViewModel : INotifyPropertyChanged
 		}
 	}
 
-	public ICommand CalculateDataCommand { get; }
 	public ICommand AddCryptoCommand { get; }
+	public ICommand CalculateDataCommand { get; }
 	public IAsyncRelayCommand InitializeCryptoCurrenciesCommand { get; }
 
 	public DcaSimulatorAdvancedViewModel(
@@ -168,12 +181,15 @@ public class DcaSimulatorAdvancedViewModel : INotifyPropertyChanged
 		_dcaCalculatorService = dcaCalculatorService;
 		_supabaseStorageService = supabaseStorageService;
 
-		CalculateDataCommand = new Command(async () => await CalculateDataAsync(), () => !IsBusy);
 		AddCryptoCommand = new Command(AddCrypto);
+		CalculateDataCommand = new Command(async () => await CalculateDataAsync(), () => !IsBusy);
 		InitializeCryptoCurrenciesCommand = new AsyncRelayCommand(InitializeCryptoCurrenciesList, () => !IsBusy);
 
 		SelectedStartDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month - 1, 1);
 		SelectedEndDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+
+		DcaSimulationInput.MonthlyAmount = 100;  
+		DcaSimulationInput.InvestDayOfTheMonth = DaysToChooseFrom[0];
 	}
 
 	private async Task CalculateDataAsync()
@@ -227,7 +243,7 @@ public class DcaSimulatorAdvancedViewModel : INotifyPropertyChanged
 		}
 	}
 
-	public void AddCrypto()
+	private void AddCrypto()
 	{
 		dcaSimulationInputList.Add(DcaSimulationInput);
 		SelectedCryptoCurrencies.Add(DcaSimulationInput.CryptoCoin);
@@ -238,7 +254,7 @@ public class DcaSimulatorAdvancedViewModel : INotifyPropertyChanged
 			//it wont work if the current month is the first of the year
 			StartDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month - 1, 1),
 			EndDate = DateTime.Now,
-			MonthlyAmount = 0,
+			MonthlyAmount = 100,
 			CryptoCoin = new(),
 			InvestDayOfTheMonth = DaysToChooseFrom[0]
 		};

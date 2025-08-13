@@ -4,11 +4,35 @@
 	xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 	xmlns:chart="clr-namespace:Syncfusion.Maui.Charts;assembly=Syncfusion.Maui.Charts"
+	xmlns:core="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
 	xmlns:dataGrid="clr-namespace:Syncfusion.Maui.DataGrid;assembly=Syncfusion.Maui.DataGrid"
 	xmlns:datePicker="clr-namespace:Syncfusion.Maui.Picker;assembly=Syncfusion.Maui.Picker"
-	xmlns:syncfusion="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
+	xmlns:inputs="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
+	xmlns:popup="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
 	BackgroundColor="Black"
 	Shell.NavBarIsVisible="False">
+	<ContentPage.Resources>
+		<ResourceDictionary>
+			<Style TargetType="Label">
+				<Setter Property="Margin" Value="5,0,0,0" />
+				<Setter Property="FontFamily" Value="Font1" />
+				<Setter Property="FontAttributes" Value="Bold" />
+			</Style>
+			<Style TargetType="inputs:SfComboBox">
+				<Setter Property="ShowBorder" Value="False" />
+				<Setter Property="FontFamily" Value="Font1" />
+				<Setter Property="FontAttributes" Value="Bold" />
+				<Setter Property="IsClearButtonVisible" Value="False" />
+			</Style>
+			<Style TargetType="Button">
+				<Setter Property="CornerRadius" Value="12" />
+				<Setter Property="FontFamily" Value="Font1" />
+				<Setter Property="FontAttributes" Value="Bold" />
+				<Setter Property="TextColor" Value="White" />
+
+			</Style>
+		</ResourceDictionary>
+	</ContentPage.Resources>
 	<ScrollView>
 		<StackLayout Orientation="Vertical">
 			<Grid>
@@ -20,8 +44,6 @@
 				</Grid.RowDefinitions>
 				<Label
 					Margin="0,20,0,0"
-					FontAttributes="Bold"
-					FontFamily="Font1"
 					FontSize="25"
 					HorizontalOptions="Center"
 					Text="Crypto DCA Calculator" />
@@ -33,40 +55,39 @@
 						<ColumnDefinition Width="*" />
 						<ColumnDefinition Width="*" />
 					</Grid.ColumnDefinitions>
-					<Border StrokeShape="RoundRectangle 12">
-						<syncfusion:SfComboBox
-							DisplayMemberPath="Name"
-							FontAttributes="Bold"
-							FontFamily="Font1"
-							IsClearButtonVisible="False"
-							ItemsSource="{Binding CryptoCurrencies}"
-							SelectedItem="{Binding DcaSimulationInput.CryptoCoin}"
-							TextColor="Black" />
-					</Border>
-					<Border Grid.Column="1" StrokeShape="RoundRectangle 12">
-						<Entry
-							BackgroundColor="white"
-							FontAttributes="Bold"
-							FontFamily="Font1"
-							Keyboard="Numeric"
-							Placeholder="Invest amount"
-							Text="{Binding DcaSimulationInput.MonthlyAmount}"
-							TextColor="Black" />
-					</Border>
+					<StackLayout Orientation="Vertical">
+						<Label FontSize="15" Text="Choose crypto" />
+						<Border StrokeShape="RoundRectangle 12">
+							<inputs:SfComboBox
+								DisplayMemberPath="Name"
+								ItemsSource="{Binding CryptoCurrencies}"
+								SelectedItem="{Binding DcaSimulationInput.CryptoCoin}" />
+						</Border>
+					</StackLayout>
+					<StackLayout Grid.Column="1" Orientation="Vertical">
+						<Label FontSize="15" Text="Monthly investment" />
+						<Border StrokeShape="RoundRectangle 12">
+							<Entry
+								BackgroundColor="white"
+								FontAttributes="Bold"
+								FontFamily="Font1"
+								Keyboard="Numeric"
+								Text="{Binding DcaSimulationInput.MonthlyAmount}"
+								TextColor="Black" />
+						</Border>
+					</StackLayout>
 				</Grid>
-				<Grid Grid.Row="2" Margin="0,30,0,0">
+				<Grid
+					Grid.Row="2"
+					Margin="0,30,0,0"
+					ColumnSpacing="10">
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="*" />
 						<ColumnDefinition Width="*" />
 						<ColumnDefinition Width="*" />
 					</Grid.ColumnDefinitions>
 					<StackLayout Orientation="Vertical">
-						<Label
-							FontAttributes="Bold"
-							FontFamily="Font1"
-							FontSize="17"
-							Text="Start Date"
-							TextColor="White" />
+						<Label FontSize="17" Text="Start Date" />
 						<Border
 							Background="White"
 							StrokeShape="RoundRectangle 12"
@@ -85,8 +106,6 @@
 							<Label
 								Margin="10"
 								BackgroundColor="White"
-								FontAttributes="Bold"
-								FontFamily="Font1"
 								Text="{Binding SelectedStartMonthYear}"
 								TextColor="Black">
 								<Label.GestureRecognizers>
@@ -96,29 +115,13 @@
 						</Border>
 					</StackLayout>
 					<StackLayout Grid.Column="1" Orientation="Vertical">
-						<Label
-							FontAttributes="Bold"
-							FontFamily="Font1"
-							FontSize="17"
-							Text="Invest day"
-							TextColor="White" />
+						<Label FontSize="17" Text="Invest day" />
 						<Border StrokeShape="RoundRectangle 12">
-							<syncfusion:SfComboBox
-								FontAttributes="Bold"
-								FontFamily="Font1"
-								IsClearButtonVisible="False"
-								ItemsSource="{Binding DaysToChooseFrom}"
-								SelectedItem="{Binding DcaSimulationInput.InvestDayOfTheMonth}"
-								TextColor="Black" />
+							<inputs:SfComboBox ItemsSource="{Binding DaysToChooseFrom}" SelectedItem="{Binding DcaSimulationInput.InvestDayOfTheMonth}" />
 						</Border>
 					</StackLayout>
 					<StackLayout Grid.Column="2" Orientation="Vertical">
-						<Label
-							FontAttributes="Bold"
-							FontFamily="Font1"
-							FontSize="17"
-							Text="End Date"
-							TextColor="White" />
+						<Label FontSize="17" Text="End Date" />
 						<Border
 							Background="White"
 							StrokeShape="RoundRectangle 12"
@@ -137,8 +140,6 @@
 							<Label
 								Margin="10"
 								BackgroundColor="White"
-								FontAttributes="Bold"
-								FontFamily="Font1"
 								Text="{Binding SelectedEndMonthYear}"
 								TextColor="Black">
 								<Label.GestureRecognizers>
@@ -148,34 +149,44 @@
 						</Border>
 					</StackLayout>
 				</Grid>
-				<Grid Grid.Row="3">
+				<Grid
+					Grid.Row="3"
+					Margin="0,30,0,0"
+					ColumnSpacing="10">
 					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="*" />
 						<ColumnDefinition Width="*" />
 						<ColumnDefinition Width="*" />
 					</Grid.ColumnDefinitions>
 					<Button
-						Margin="0,30,0,0"
-						BackgroundColor="Blue"
-						Command="{Binding CalculateDataCommand}"
-						CornerRadius="12"
-						FontAttributes="Bold"
-						FontFamily="Font1"
-						Text="Calculate"
-						TextColor="White"
-						WidthRequest="150" />
+						BackgroundColor="Green"
+						Command="{Binding AddCryptoCommand}"
+						Text="Add crypto" />
 					<Button
 						Grid.Column="1"
-						Margin="0,30,0,0"
 						BackgroundColor="Blue"
-						Command="{Binding AddCryptoCommand}"
-						CornerRadius="12"
-						FontAttributes="Bold"
-						FontFamily="Font1"
-						Text="Add crypto"
-						TextColor="White"
-						WidthRequest="150" />
+						Command="{Binding CalculateDataCommand}"
+						Text="Calculate" />
+					<Button
+						Grid.Column="2"
+						BackgroundColor="Gray"
+						Clicked="Button_Clicked"
+						Command="{Binding ShowHelpCommand}"
+						Text="Need help?" />
 				</Grid>
 			</Grid>
+
+			<popup:SfPopup
+				x:Name="sfPopup"
+				AnimationMode="Zoom"
+				Message="1. Choose crypto from the list -&gt; 2.Input a monthly investment -&gt; 3.Select the start date -&gt; 4.Select the day of the month -&gt; 5. Select the end date -&gt; 6. Press Add Crypto ---&gt; You can repeat this process for more coins, when you're done press Calculate "
+				ShowHeader="False" />
+			<core:SfBusyIndicator
+				AnimationType="DoubleCircle"
+				HeightRequest="50"
+				IndicatorColor="White"
+				IsRunning="{Binding IsBusy}"
+				IsVisible="{Binding IsBusy}" />
 
 			<!--  Data Grid Result  -->
 			<Grid Margin="0,50,0,20">
@@ -184,21 +195,15 @@
 					<ColumnDefinition Width="*" />
 				</Grid.ColumnDefinitions>
 				<Label
-					FontAttributes="Bold"
-					FontFamily="Font1"
 					FontSize="20"
 					HorizontalOptions="Start"
 					Text="Result:"
 					TextColor="White" />
 				<Border Grid.Column="1" StrokeShape="RoundRectangle 12">
-					<syncfusion:SfComboBox
+					<inputs:SfComboBox
 						DisplayMemberPath="Name"
-						FontAttributes="Bold"
-						FontFamily="Font1"
-						IsClearButtonVisible="False"
 						ItemsSource="{Binding SelectedCryptoCurrencies}"
-						SelectedItem="{Binding SelectedCryptoCurrency}"
-						TextColor="Black" />
+						SelectedItem="{Binding SelectedCryptoCurrency}" />
 				</Border>
 			</Grid>
 			<Border

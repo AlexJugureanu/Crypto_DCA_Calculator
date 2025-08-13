@@ -26,4 +26,10 @@ public partial class DcaSimulatorAdvancedView : ContentPage
 	{
 		endDatePicker.IsOpen = true;
 	}
+
+	private void Button_Clicked(object sender, EventArgs e)
+	{
+		sfPopup.Show();
+
+	}
 }
