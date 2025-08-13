@@ -317,14 +317,14 @@
 					</Grid>
 				</Border>
 
-				<chart:SfCircularChart>
-
+				<!--  TODO -> needs a separate service to calculat the right balance of the crypto amount  -->
+				<!--<chart:SfCircularChart>
 					<chart:SfCircularChart.Resources>
 						<DataTemplate x:Key="labelTemplate">
 							<HorizontalStackLayout Spacing="5">
 								<Label
 									FontSize="13"
-									Text="{Binding Item.CryptoName}"
+									Text="{Binding Item.Name}"
 									TextColor="White" />
 								<Label
 									FontSize="13"
@@ -332,20 +332,18 @@
 									TextColor="White" />
 								<Label
 									FontSize="13"
-									Text="{Binding Item.CryptoCurrencyAmount}"
+									Text="{Binding Item.Amount}"
 									TextColor="White" />
 							</HorizontalStackLayout>
 						</DataTemplate>
 					</chart:SfCircularChart.Resources>
-
 					<chart:PieSeries
-						ItemsSource="{Binding DcaSimListResult}"
+						ItemsSource="{Binding CryptoAmounts}"
 						LabelTemplate="{StaticResource labelTemplate}"
 						ShowDataLabels="True"
-						XBindingPath="CryptoName"
-						YBindingPath="CryptoCurrencyAmount" />
-
-				</chart:SfCircularChart>
+						XBindingPath="Name"
+						YBindingPath="Amount" />
+				</chart:SfCircularChart>-->
 			</StackLayout>
 		</StackLayout>
 	</ScrollView>

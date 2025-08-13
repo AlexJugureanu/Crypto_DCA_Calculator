@@ -3,12 +3,12 @@ using Supabase;
 
 namespace Crypto_DCA_Calculator_MobileApp.Services;
 
-public interface ISupabaseStorageService
+public interface IStorageService
 {
 	Task<List<CryptoCoin>> GetCryptoCoinsAsync();
 }
 
-public class SupabaseStorageService : ISupabaseStorageService
+public class SupabaseStorageService : IStorageService
 {
 	private Client _client;
 

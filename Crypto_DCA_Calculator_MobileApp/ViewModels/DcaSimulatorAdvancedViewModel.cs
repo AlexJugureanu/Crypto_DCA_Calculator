@@ -5,13 +5,14 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
+using Crypto_DCA_Calculator_MobileApp.Models.UiModels;
 
 namespace Crypto_DCA_Calculator_MobileApp.ViewModels;
 
 public class DcaSimulatorAdvancedViewModel : INotifyPropertyChanged
 {
 	private readonly IDcaCalculatorService _dcaCalculatorService;
-	private readonly ISupabaseStorageService _supabaseStorageService;
+	private readonly IStorageService _supabaseStorageService;
 
 
 	public event PropertyChangedEventHandler? PropertyChanged;
@@ -25,9 +26,9 @@ public class DcaSimulatorAdvancedViewModel : INotifyPropertyChanged
 	private ObservableCollection<CryptoType> _cryptoCurrencies = [];
 	private ObservableCollection<CryptoType> _selectedCryptoCurrencies = [];
 	private CryptoType _selectedCryptoCurrency = new();
-
 	private List<DcaSimulationInput> dcaSimulationInputList = [];
 	private DcaSimulationInput _dcaSimulationInput = new();
+	private List<CryptoAmountUi> _cryptoAmounts = [];
 
 	private Dictionary<CryptoType, List<DcaResultForUser>> _listResult = [];
 
@@ -170,13 +171,26 @@ public class DcaSimulatorAdvancedViewModel : INotifyPropertyChanged
 		}
 	}
 
+	public List<CryptoAmountUi> CryptoAmounts
+	{
+		get => _cryptoAmounts;
+		set
+		{
+			if (_cryptoAmounts != value)
+			{
+				_cryptoAmounts = value;
+				OnPropertyChanged(nameof(CryptoAmounts));
+			}
+		}
+	}
+
 	public ICommand AddCryptoCommand { get; }
 	public ICommand CalculateDataCommand { get; }
 	public IAsyncRelayCommand InitializeCryptoCurrenciesCommand { get; }
 
 	public DcaSimulatorAdvancedViewModel(
 		IDcaCalculatorService dcaCalculatorService,
-		ISupabaseStorageService supabaseStorageService)
+		IStorageService supabaseStorageService)
 	{
 		_dcaCalculatorService = dcaCalculatorService;
 		_supabaseStorageService = supabaseStorageService;
@@ -188,7 +202,7 @@ public class DcaSimulatorAdvancedViewModel : INotifyPropertyChanged
 		SelectedStartDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month - 1, 1);
 		SelectedEndDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
 
-		DcaSimulationInput.MonthlyAmount = 100;  
+		DcaSimulationInput.MonthlyAmount = 100;
 		DcaSimulationInput.InvestDayOfTheMonth = DaysToChooseFrom[0];
 	}
 
@@ -201,7 +215,7 @@ public class DcaSimulatorAdvancedViewModel : INotifyPropertyChanged
 
 		try
 		{
-			//TODO improve cause is needed
+			//TODO improve cause is needed to not recalculate cryptos again and again
 			//var cryptosToRemoveFromList = dcaSimulationInputList.Where(x => ListResult.ContainsKey(x.CryptoCoin));
 			//foreach (var crypto in cryptosToRemoveFromList)
 			//{
@@ -231,10 +245,22 @@ public class DcaSimulatorAdvancedViewModel : INotifyPropertyChanged
 				ListResult.Add(simInput.CryptoCoin, newUiResult);
 			}
 
-			DcaSimListResult = ListResult.FirstOrDefault().Value;
+			CryptoAmounts = [];
+			var cryptoAmounts = new List<CryptoAmountUi>();
+			foreach (var result in ListResult)
+			{
+				cryptoAmounts.Add(new()
+				{
+					Name = result.Key.Name,
+					Amount = Math.Round(result.Value.Select(x => x.CryptoCurrencyAmount).Sum(), 5)
+				});
+			}
+
+			CryptoAmounts = cryptoAmounts;
 		}
 		catch (Exception ex)
 		{
+			//TODO display pop up
 			StatusMessage = "Calculation failed with the following message: " + ex.Message;
 		}
 		finally
